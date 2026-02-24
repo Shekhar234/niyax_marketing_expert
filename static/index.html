@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Marketing Expert | CVM Platform</title>
+
+  <link rel="stylesheet" href="/static/css/styles.css"/>
+
+  <!-- Safety CSS so tracker never disappears -->
+  <style>
+    .topbar { position: sticky; top: 0; z-index: 10; }
+    #progressTracker { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .trackStep label { margin:0; }
+    
+    /* File Upload Styling */
+    .upload-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+      max-width: 400px;
+    }
+    .file-upload-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+    }
+    .file-upload-wrapper input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      z-index: -1;
+    }
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      background: var(--panel2);
+      cursor: pointer;
+      transition: all 0.3s;
+      min-height: 50px;
+      width: 100%;
+    }
+    .file-upload-label:hover {
+      border-color: var(--accent);
+      background: var(--panel);
+    }
+    .file-upload-icon {
+      font-size: 24px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .file-upload-text {
+      flex: 1;
+      min-width: 0;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .file-upload-placeholder {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .file-upload-filename {
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+      word-break: break-all;
+    }
+    .upload-container .btn {
+      width: 100%;
+      min-width: 200px;
+    }
+    
+    /* Button Group - Left Aligned */
+    .button-group-left {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 14px;
+    }
+    .button-group-left .btn {
+      min-width: 220px;
+      width: 220px;
+    }
+    .upload-container .btn {
+      width: 100%;
+      max-width: 350px;
+      min-width: 220px;
+    }
+    
+    /* Opportunity Layout */
+    .opportunity-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .opportunity-selects {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .select-group {
+      flex: 0 0 auto;
+      width: 250px;
+    }
+    .select-group select[multiple] {
+      width: 100%;
+    }
+    .select-group-label {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .select-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    select[multiple] {
+      min-height: 140px;
+      padding: 8px;
+    }
+    select[multiple] option:checked {
+      background: linear-gradient(180deg, rgba(255, 107, 53, 0.2), rgba(255, 107, 53, 0.15));
+    }
+    
+    /* Single Select Styling */
+    select:not([multiple]) {
+      padding: 10px 12px;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      width: 100%;
+    }
+    select:not([multiple]):hover {
+      border-color: var(--accent);
+    }
+    
+    @media (max-width: 768px) {
+      .opportunity-selects {
+        flex-direction: column;
+      }
+      .select-group {
+        min-width: 100%;
+      }
+      .button-group-left {
+        width: 100%;
+      }
+      .button-group-left .btn {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+  </style>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="logo" src="/static/assets/niyax_logo.png" alt="NiyaX" onerror="this.style.display='none'"/>
+    </div>
+
+    <nav class="nav">
+      <button class="navItem active" data-step="upload" title="Upload"><span>⬆️</span></button>
+      <button class="navItem" data-step="lifecycle" title="Lifecycle" disabled><span>🧬</span></button>
+      <button class="navItem" data-step="opportunity" title="Opportunities" disabled><span>🎯</span></button>
+      <button class="navItem" data-step="offers" title="Offers" disabled><span>🧠</span></button>
+      <button class="navItem" data-step="forecast" title="Forecast" disabled><span>📈</span></button>
+      <button class="navItem" data-step="reviewlaunch" title="Review & Launch" disabled><span>🚀</span></button>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <h1 id="pageTitle">Upload Audience</h1>
+        <div class="subtitle" id="pageSub">Upload subscriber base.</div>
+
+        <div class="tracker" id="progressTracker">
+          <div class="trackStep active" data-track="1"><span>1</span><label>Upload</label></div>
+          <div class="trackStep" data-track="2"><span>2</span><label>Lifecycle</label></div>
+          <div class="trackStep" data-track="3"><span>3</span><label>Opportunity</label></div>
+          <div class="trackStep" data-track="4"><span>4</span><label>Offers</label></div>
+          <div class="trackStep" data-track="5"><span>5</span><label>Forecast</label></div>
+          <div class="trackStep" data-track="6"><span>6</span><label>Review & Launch</label></div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+        <!--div class="pill">Tenant: NiyaX</div-->
+        <!--div class="pill">Role: Marketing</div-->
+        <!--div class="pill" id="pillSession">Session: —</div-->
+        <img src="/static/assets/flytxt_logo.png" alt="Flytxt" style="height:30px; margin-top:13px;" onerror="this.style.display='none'"/>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- STEP 1: Upload -->
+      <div class="card stepPane" id="pane-upload">
+        <h2>1) Upload audience</h2>
+        <p class="muted">Upload CSV (MSISDN column). Validation and Ingestion Agent will create a session.</p>
+
+        <div class="upload-container">
+          <div class="file-upload-wrapper">
+            <input id="fileInput" type="file" accept=".csv" onchange="updateFileName(this)"/>
+            <label for="fileInput" class="file-upload-label">
+              <span class="file-upload-icon">📁</span>
+              <div class="file-upload-text">
+                <div class="file-upload-placeholder" id="fileLabel">Choose CSV file or drag here</div>
+              </div>
+            </label>
+          </div>
+
+          <button class="btn primary" id="btnUpload">Upload</button>
+          <button class="btn" id="btnNextToLifecycle" disabled>Next: Lifecycle →</button>
+        </div>
+
+        <div class="mini">
+          <div class="miniTitle">Session</div>
+          <pre class="json" id="sessionBox">{}</pre>
+        </div>
+      </div>
+
+      <!-- STEP 2: Lifecycle -->
+      <div class="card stepPane hidden" id="pane-lifecycle">
+        <h2>2) Lifecycle stage calculation</h2>
+        <p class="muted">Lifecycle Intelligence Agent assigns lifecycle stage for each customer (no reasons).</p>
+
+        <div class="button-group-left">
+          <button class="btn primary" id="btnRunLifecycle">Run Lifecycle Model</button>
+          <button class="btn" id="btnPreviewLifecycle" disabled>Preview</button>
+          <button class="btn" id="btnNextToOpportunity" disabled>Next: Opportunity →</button>
+        </div>
+
+        <div class="mini">
+          <div class="miniTitle">Preview</div>
+          <div class="tableWrap"><table id="tblLifecycle"></table></div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Opportunity -->
+      <div class="card stepPane hidden" id="pane-opportunity">
+        <h2>3) Opportunity identification</h2>
+        <p class="muted">Select LOBs and opportunity types. Next Best Action Agent outputs opportunities with premium reasoning.</p>
+
+        <div class="opportunity-layout">
+          <div class="opportunity-selects">
+            <div class="select-group">
+              <div class="select-group-label">LOBs</div>
+              <select id="lobSelect" multiple size="5">
+                <option value="TOTAL_NETWORK">Total Network (Voice + Data + VAS)</option>
+                <option value="DATA">Data</option>
+                <option value="VOICE">Voice</option>
+                <option value="VAS">VAS</option>
+              </select>
+            </div>
+
+            <div class="select-group">
+              <div class="select-group-label">Opportunity types</div>
+              <select id="oppTypeSelect" multiple size="6">
+                <option value="Auto">Auto (All types)</option>
+                <option value="Upsell">Upsell</option>
+                <option value="Retain">Retain</option>
+                <option value="Revive">Revive</option>
+                <option value="Cross-sell">Cross-sell</option>
+                <option value="No action">No action (Standard offers)</option>
+              </select>
+              <div class="select-hint">Tip: Ctrl + Click to select/deselect multiple options.</div>
+            </div>
+          </div>
+
+          <div class="button-group-left">
+            <button class="btn primary" id="btnRunOpportunity">Run</button>
+            <button class="btn" id="btnPreviewOpportunity" disabled>Preview</button>
+            <button class="btn" id="btnNextToOffers" disabled>Next: Offers →</button>
+          </div>
+        </div>
+
+        <div class="mini">
+          <div class="miniTitle">Preview</div>
+          <div class="tableWrap"><table id="tblOpportunity"></table></div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Offers -->
+      <div class="card stepPane hidden" id="pane-offers">
+        <h2>4) Offer strategy</h2>
+        <p class="muted">Next Best Offer Agent generates personalized offers for each opportunity type.</p>
+
+        <!-- Selection Summary from Step 3 -->
+        <div class="selection-summary" id="offerSelectionSummary">
+          <div class="summary-row">
+            <div class="summary-item">
+              <span class="summary-label">Selected LOB(s):</span>
+              <span class="summary-value" id="summaryLobs">—</span>
+            </div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-item">
+              <span class="summary-label">Selected Opportunities:</span>
+              <span class="summary-value" id="summaryOpportunities">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Offer Configuration per Opportunity Type -->
+        <div class="offer-config-section">
+          <div class="select-group-label" style="margin-bottom: 12px;">Configure Offers per Opportunity Type</div>
+          <div class="offer-config-grid" id="offerConfigGrid">
+            <!-- Dynamically populated based on selected opportunities -->
+            <div class="offer-config-placeholder muted">
+              Please complete Step 3 (Opportunity Identification) first to configure offers.
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group-left" style="margin-top: 20px;">
+          <button class="btn primary" id="btnRunOffers">Generate Offers</button>
+          <button class="btn" id="btnPreviewOffers" disabled>Preview</button>
+          <button class="btn" id="btnNextToForecast" disabled>Next: Forecast →</button>
+        </div>
+
+        <div class="mini">
+          <div class="miniTitle">Preview</div>
+          <div class="tableWrap"><table id="tblOffers"></table></div>
+        </div>
+      </div>
+
+      <!-- STEP 5: Forecast -->
+      <div class="card stepPane hidden" id="pane-forecast">
+        <h2>5) Impact forecast</h2>
+        <p class="muted">Impact Forecast Agent estimates uplift and churn reduction.</p>
+
+        <div class="button-group-left">
+          <button class="btn primary" onclick="runForecastNow()">Run Forecast</button>
+          <button class="btn" id="btnNextToReviewLaunch" onclick="goReviewLaunch()" disabled>
+            Next: Review & Launch →
+          </button>
+        </div>
+
+        <!-- HORIZONTAL KPI CARDS -->
+        <div class="forecastRow">
+          <div class="kpiTile">
+            <div class="kpiHeader">
+              <div class="kpiTitle">Revenue Impact</div>
+              <div class="kpiBadge" id="kpiRevBadge">+—%</div>
+            </div>
+            <div class="kpiValue" id="kpiRevTotal">$—M</div>
+          </div>
+
+          <div class="kpiTile">
+            <div class="kpiHeader">
+              <div class="kpiTitle">Margin Impact</div>
+              <div class="kpiBadge" id="kpiMarginBadge">+—%</div>
+            </div>
+            <div class="kpiValue" id="kpiMarginTotal">$—M</div>
+          </div>
+
+          <div class="kpiTile">
+            <div class="kpiHeader">
+              <div class="kpiTitle">Churn Reduction Impact</div>
+              <div class="kpiBadge" id="kpiChurnBadge">-—%</div>
+            </div>
+            <div class="kpiValue" id="kpiChurnAvg">—%</div>
+          </div>
+        </div>
+
+        <!-- 3 COMPACT CHARTS BELOW -->
+        <div class="forecastChartsRow">
+          <div class="chartMiniCard">
+            <div class="chartMiniTitle">Last 6 months Revenue</div>
+            <canvas id="barRev6" height="115"></canvas>
+          </div>
+
+          <div class="chartMiniCard">
+            <div class="chartMiniTitle">Last 6 months Margin</div>
+            <canvas id="barMargin6" height="115"></canvas>
+          </div>
+
+          <div class="chartMiniCard">
+            <div class="chartMiniTitle">Last 6 months Churn</div>
+            <canvas id="barChurn6" height="115"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6: Review & Launch -->
+      <div class="card stepPane hidden" id="pane-reviewlaunch">
+        <h2>6) Review & launch</h2>
+        <p class="muted">Governance Agent prepares approval pack and publishes output.</p>
+
+        <div class="row">
+          <div style="flex:1;min-width:320px;">
+            <div class="miniTitle">Review Summary</div>
+            <pre class="json" id="reviewSummary">{}</pre>
+          </div>
+          <div style="flex:1;min-width:320px;">
+            <div class="miniTitle">Launch / Publish</div>
+            <pre class="json" id="publishSummary">{}</pre>
+          </div>
+        </div>
+
+        <div class="button-group-left">
+          <button class="btn primary" id="btnLaunch">Launch</button>
+          <button class="btn" id="btnDownload" disabled>Download Output</button>
+          <button class="btn primary" id="btnPublishApi" disabled>Trigger API</button>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <div style="min-width:240px;">
+            <div class="muted" style="font-weight:800;margin-bottom:6px;">Target System</div>
+            <select id="publishTarget" style="min-width:240px;">
+              <option value="NEON_DX">NEON-dX</option>
+              <option value="CAMPAIGN_MGR">Campaign Manager</option>
+              <option value="CRM">CRM</option>
+              <option value="CUSTOM">Custom Endpoint</option>
+            </select>
+          </div>
+          <div style="flex:1;min-width:320px;">
+            <div class="muted" style="font-weight:800;margin-bottom:6px;">Endpoint URL (optional)</div>
+            <input id="publishUrl" placeholder="https://api.your-system.com/publish (optional)" style="width:100%;"/>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<!-- Agent overlay -->
+<div id="overlay" class="overlay hidden">
+  <div class="overlayCard">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+      <div class="agentIcon" id="agentIcon">🤖</div>
+      <div>
+        <div style="font-weight:900;font-size:16px;" id="agentTitle">Agent</div>
+        <div style="opacity:.85;font-size:13px;" id="agentSub">Working…</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;opacity:.85;font-size:12px;">Processing…</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modalBackdrop" class="modalBackdrop hidden">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="modalTitle" id="modalTitle">Message</div>
+      <button class="iconBtn" id="modalClose">✕</button>
+    </div>
+    <div class="modalBody" id="modalBody"></div>
+    <div class="modalFooter">
+      <button class="btn primary" id="modalOk">OK</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+// File input handler
+function updateFileName(input) {
+  const label = document.getElementById('fileLabel');
+  if (input.files && input.files.length > 0) {
+    label.textContent = input.files[0].name;
+    label.className = 'file-upload-filename';
+  } else {
+    label.textContent = 'Choose CSV file or drag here';
+    label.className = 'file-upload-placeholder';
+  }
+}
+</script>
+</body>
+</html>

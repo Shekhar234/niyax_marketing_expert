@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NiYA-X | Marketing Expert - Autonomous CVM</title>
+    <link rel="stylesheet" href="/static/css/cvm-expert.css"/>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <img src="/static/assets/niyax_transparent_logo.png" alt="NiYA-X" class="sidebar-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="sidebar-logo-fallback" style="display:none;">🤖</div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="/" class="sidebar-item">
+                <div class="sidebar-icon-wrapper">
+                    <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    </svg>
+                </div>
+                <span class="sidebar-label">Home</span>
+            </a>
+            
+            <a href="#" class="sidebar-item active">
+                <div class="sidebar-icon-wrapper start-btn">
+                    <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <span class="sidebar-label">Marketing</span>
+            </a>
+            
+            <a href="#" class="sidebar-item">
+                <div class="sidebar-icon-wrapper">
+                    <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <span class="sidebar-label">History</span>
+            </a>
+            
+            <a href="#" class="sidebar-item">
+                <div class="sidebar-icon-wrapper">
+                    <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                </div>
+                <span class="sidebar-label">Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <a href="/" class="back-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </a>
+                <img src="/static/assets/niyax_logo.png" alt="NiYA-X" class="logo-image" onerror="this.style.display='none';">
+                <span class="page-title">Marketing Expert</span>
+                <span class="mode-badge">Reactive Mode</span>
+            </div>
+            <div class="header-right">
+                <button class="new-chat-btn" onclick="resetConversation()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    New Conversation
+                </button>
+                <div class="user-avatar">
+                    <span>JD</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Split Panel Layout -->
+        <div class="split-container">
+            <!-- LEFT PANEL: Agent & System Thinking -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <h3>🧠 System Thinking</h3>
+                    <span class="panel-subtitle">Agent Orchestration & Reasoning</span>
+                </div>
+                
+                <!-- Active Agent Display -->
+                <div class="active-agent-card" id="activeAgentCard">
+                    <div class="agent-status">
+                        <span class="status-dot idle"></span>
+                        <span class="status-text">Ready</span>
+                    </div>
+                    <div class="agent-icon" id="agentIcon">🎯</div>
+                    <div class="agent-name" id="agentName">Awaiting Input</div>
+                    <div class="agent-description" id="agentDescription">Start a conversation to activate AI agents</div>
+                </div>
+
+                <!-- Reasoning Log -->
+                <div class="reasoning-section">
+                    <div class="reasoning-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4M12 8h.01"></path>
+                        </svg>
+                        <span>Reasoning Chain</span>
+                    </div>
+                    <div class="reasoning-log" id="reasoningLog">
+                        <div class="reasoning-placeholder">
+                            <p>Agent reasoning will appear here as NiYA-X processes your request...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agent Pipeline -->
+                <div class="pipeline-section">
+                    <div class="pipeline-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                        <span>Agent Pipeline</span>
+                    </div>
+                    <div class="pipeline-steps" id="pipelineSteps">
+                        <div class="pipeline-step" data-step="intent">
+                            <div class="step-icon">🎯</div>
+                            <div class="step-info">
+                                <span class="step-name">Intent Parser</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step" data-step="planner">
+                            <div class="step-icon">📋</div>
+                            <div class="step-info">
+                                <span class="step-name">Outcome Planner</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step" data-step="discovery">
+                            <div class="step-icon">👥</div>
+                            <div class="step-info">
+                                <span class="step-name">Segment Discovery</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step" data-step="analyzer">
+                            <div class="step-icon">🔍</div>
+                            <div class="step-info">
+                                <span class="step-name">Behavior Analyzer</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step" data-step="strategist">
+                            <div class="step-icon">💡</div>
+                            <div class="step-info">
+                                <span class="step-name">Strategy Designer</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step" data-step="optimizer">
+                            <div class="step-icon">📡</div>
+                            <div class="step-info">
+                                <span class="step-name">Channel Optimizer</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                        <div class="pipeline-step" data-step="predictor">
+                            <div class="step-icon">🔮</div>
+                            <div class="step-info">
+                                <span class="step-name">Impact Predictor</span>
+                                <span class="step-status">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: Chat Interface -->
+            <div class="right-panel">
+                <div class="chat-container">
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Welcome Message -->
+                        <div class="message assistant">
+                            <div class="message-avatar">
+                                <img src="/static/assets/niyax_picture.png" alt="NiYA-X" onerror="this.innerHTML='🤖';">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">NiYA-X Marketing Expert</span>
+                                    <span class="message-time">Now</span>
+                                </div>
+                                <div class="message-text">
+                                    <p>Hello! I'm your Marketing Expert powered by specialized AI agents.</p>
+                                    <p>Tell me your business objective, and I'll orchestrate the right agents to discover opportunities and design campaigns for you.</p>
+                                    <div class="suggestion-chips">
+                                        <button class="chip" onclick="sendSuggestion('I want to increase adoption of our content bundle packs in the postpaid base')">📦 Increase Bundle Adoption</button>
+                                        <button class="chip" onclick="sendSuggestion('I want to reduce churn among high-value customers')">🛡️ Reduce Churn</button>
+                                        <button class="chip" onclick="sendSuggestion('I want to increase ARPU through upselling')">📈 Increase ARPU</button>
+                                        <button class="chip" onclick="sendSuggestion('I want to reactivate dormant prepaid subscribers')">🔄 Win Back Customers</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea 
+                                id="chatInput" 
+                                class="chat-input" 
+                                placeholder="Describe your marketing objective..."
+                                rows="1"
+                                onkeydown="handleKeyDown(event)"
+                            ></textarea>
+                            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="input-hint">Press Enter to send, Shift+Enter for new line</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Typing Indicator Template -->
+    <template id="typingTemplate">
+        <div class="message assistant typing-indicator-msg">
+            <div class="message-avatar">
+                <img src="/static/assets/niyax_picture.png" alt="NiYA-X" onerror="this.innerHTML='🤖';">
+            </div>
+            <div class="message-content">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="/static/js/cvm-expert.js"></script>
+</body>
+</html>

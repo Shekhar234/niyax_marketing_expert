@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NiYA-X | Marketing Expert</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden; /* No scrolling */
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            height: 100vh;
+            /* Background: White on top, double shade blue at bottom */
+            background: linear-gradient(180deg, 
+                #ffffff 0%, 
+                #ffffff 35%,
+                #e8f4fc 50%,
+                #d4ebf7 70%,
+                #c2e2f4 100%
+            );
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* ========== TOP: NiYA-X Logo (Big, Centered) ========== */
+        .top-logo-section {
+            padding: 30px 20px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .main-logo {
+            height: 50px;
+            margin-bottom: 5px;
+        }
+        
+        /* No plugins enabled - NO arrow */
+        .plugins-status {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        /* ========== MIDDLE: Transparent NiYA-X icon + Marketing Expert ========== */
+        .expert-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 20px 12px;
+        }
+        
+        /* Transparent icon - no background, no circle */
+        .expert-icon {
+            width: 42px;
+            height: 42px;
+            margin-bottom: 10px;
+        }
+        
+        .expert-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .expert-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1e3a5f;
+        }
+        
+        /* ========== HOW CAN I HELP (Left aligned with icon) ========== */
+        .help-section {
+            width: 100%;
+            max-width: 520px;
+            padding: 18px 20px 10px;
+        }
+        
+        .help-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .help-icon {
+            width: 22px;
+            height: 22px;
+        }
+        
+        .help-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .help-text {
+            font-size: 13px;
+            color: #4b5563;
+        }
+        
+        /* ========== PREDEFINED TASK BUTTONS ========== */
+        .tasks-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            padding: 8px 20px 20px;
+            max-width: 520px;
+        }
+        
+        .task-btn {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+        
+        .task-btn:hover {
+            background: #fff7ed;
+            border-color: #ff6b35;
+            color: #ff6b35;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 107, 53, 0.12);
+        }
+        
+        /* ========== INPUT BOX ========== */
+        .input-section {
+            width: 100%;
+            max-width: 450px;
+            padding: 10px 20px 30px;
+        }
+        
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 4px 4px 4px 16px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+        
+        .input-wrapper:focus-within {
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.08);
+        }
+        
+        .chat-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            color: #374151;
+            background: transparent;
+        }
+        
+        .chat-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .send-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ff8656);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .send-btn svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- TOP: NiYA-X Logo (Big, Centered) - NO text fallback -->
+    <div class="top-logo-section">
+        <img src="/static/assets/niyax_logo.png" alt="NiYA-X" class="main-logo">
+        <div class="plugins-status">No plugins enabled</div>
+    </div>
+    
+    <!-- MIDDLE: Transparent Icon + Marketing Expert -->
+    <div class="expert-section">
+        <div class="expert-icon">
+            <img src="/static/assets/niyax_picture.png" alt="Expert">
+        </div>
+        <h1 class="expert-title">Marketing Expert</h1>
+    </div>
+    
+    <!-- HOW CAN I HELP (Left side with icon) -->
+    <div class="help-section">
+        <div class="help-container">
+            <div class="help-icon">
+                <img src="/static/assets/niyax_picture.png" alt="">
+            </div>
+            <span class="help-text">How can I help?</span>
+        </div>
+    </div>
+    
+    <!-- PREDEFINED TASK BUTTONS -->
+    <div class="tasks-grid">
+        <button class="task-btn" onclick="startTask('optimize')">Optimise Campaign Performance</button>
+        <button class="task-btn" onclick="startTask('retention')">Design Retention Program</button>
+        <button class="task-btn" onclick="startTask('crosssell')">Discover Cross-sell Segments</button>
+        <button class="task-btn" onclick="startTask('revenue')">Accelerate Revenue Growth</button>
+        <button class="task-btn" onclick="startTask('winback')">Reactivate Dormant Customers</button>
+        <button class="task-btn" onclick="startTask('engagement')">Improve Customer Engagement</button>
+        <button class="task-btn" onclick="startTask('newproduct')">Launch New Product Campaign</button>
+    </div>
+    
+    <!-- INPUT BOX -->
+    <div class="input-section">
+        <div class="input-wrapper">
+            <input type="text" class="chat-input" id="customInput" placeholder="Ask your Expert" onkeydown="handleKeyDown(event)">
+            <button class="send-btn" onclick="sendCustom()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function startTask(taskType) {
+            window.location.href = `/marketing-chat?task=${taskType}`;
+        }
+        
+        function handleKeyDown(e) {
+            if (e.key === 'Enter') {
+                sendCustom();
+            }
+        }
+        
+        function sendCustom() {
+            const input = document.getElementById('customInput');
+            const text = input.value.trim();
+            if (text) {
+                window.location.href = `/marketing-chat?custom=${encodeURIComponent(text)}`;
+            }
+        }
+    </script>
+</body>
+</html>
